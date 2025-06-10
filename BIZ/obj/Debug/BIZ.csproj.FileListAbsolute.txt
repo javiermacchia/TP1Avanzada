@@ -1,0 +1,12 @@
+C:\Users\Pablo\Downloads\ejemplo_login\Ejemplo_Login\BIZ\bin\Debug\BIZ.dll
+C:\Users\Pablo\Downloads\ejemplo_login\Ejemplo_Login\BIZ\bin\Debug\BIZ.pdb
+C:\Users\Pablo\Downloads\ejemplo_login\Ejemplo_Login\BIZ\obj\Debug\BIZ.csproj.AssemblyReference.cache
+C:\Users\Pablo\Downloads\ejemplo_login\Ejemplo_Login\BIZ\obj\Debug\BIZ.csproj.CoreCompileInputs.cache
+C:\Users\Pablo\Downloads\ejemplo_login\Ejemplo_Login\BIZ\obj\Debug\BIZ.dll
+C:\Users\Pablo\Downloads\ejemplo_login\Ejemplo_Login\BIZ\obj\Debug\BIZ.pdb
+C:\Users\jmacc\Desktop\ejemplo_login\Ejemplo_Login\BIZ\bin\Debug\BIZ.dll
+C:\Users\jmacc\Desktop\ejemplo_login\Ejemplo_Login\BIZ\bin\Debug\BIZ.pdb
+C:\Users\jmacc\Desktop\ejemplo_login\Ejemplo_Login\BIZ\obj\Debug\BIZ.csproj.AssemblyReference.cache
+C:\Users\jmacc\Desktop\ejemplo_login\Ejemplo_Login\BIZ\obj\Debug\BIZ.csproj.CoreCompileInputs.cache
+C:\Users\jmacc\Desktop\ejemplo_login\Ejemplo_Login\BIZ\obj\Debug\BIZ.dll
+C:\Users\jmacc\Desktop\ejemplo_login\Ejemplo_Login\BIZ\obj\Debug\BIZ.pdb
