@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing.Printing;
 using System.Web.UI;
 
 namespace TP1Avanzada
@@ -10,6 +9,7 @@ namespace TP1Avanzada
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Depuración
             System.Diagnostics.Debug.WriteLine($"[ProfilePage] Session UserId={(Session["UserId"] ?? "null")}");
 
             if (Session["UserId"] == null)
@@ -19,10 +19,13 @@ namespace TP1Avanzada
 
             if (!IsPostBack)
             {
+                // Carga datos del usuario, incluyendo nombre y apellido
                 var u = BIZ.DatosLogin.GetUsuario(_userId);
+                txtFirstName.Text = u.FirstName;
+                txtLastName.Text = u.LastName;
                 txtUsername.Text = u.Username;
                 txtEmail.Text = u.Email;
-                // dejamos txtPassword vacío
+                // txtPassword y txtConfirm quedan vacíos
             }
             lblMsg.Visible = false;
         }
@@ -33,6 +36,8 @@ namespace TP1Avanzada
 
             var newUser = txtUsername.Text.Trim();
             var newEmail = txtEmail.Text.Trim();
+            var newFirstName = txtFirstName.Text.Trim();
+            var newLastName = txtLastName.Text.Trim();
             var newPassword = txtPassword.Text;
 
             // Si no ingresó nueva contraseña, mantenemos la actual:
@@ -42,8 +47,14 @@ namespace TP1Avanzada
                 newPassword = u.Password;
             }
 
+            // Llamada actualizada al servicio con los nuevos campos
             var ok = BIZ.DatosLogin.UpdateUsuario(
-                _userId, newUser, newEmail, newPassword
+                _userId,
+                newUser,
+                newEmail,
+                newPassword,
+                newFirstName,
+                newLastName
             );
 
             lblMsg.Visible = true;
@@ -51,7 +62,7 @@ namespace TP1Avanzada
             {
                 lblMsg.CssClass = "text-success";
                 lblMsg.Text = "Perfil actualizado con éxito.";
-                // Refresca Session["UserName"]
+                // Refresca Session["UserName"] si cambió el username
                 Session["UserName"] = newUser;
             }
             else

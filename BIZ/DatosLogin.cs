@@ -12,13 +12,12 @@ namespace BIZ
             public string Username;
             public string Password;
             public string Email;
+            public string FirstName;       // Nuevo
+            public string LastName;        // Nuevo
             public byte PermissionLevel;
             public DateTime CreatedAt;
         }
 
-        /// <summary>
-        /// Lee la cadena de conexión "SQLCLASE" del Web.config.
-        /// </summary>
         private static string GetConnectionString() =>
             ConfigurationManager
                 .ConnectionStrings["SQLCLASE"]
@@ -29,43 +28,47 @@ namespace BIZ
         /// </summary>
         public static int LoginUsuario(string usuario, string password)
         {
-            string sql = $@"
-                SELECT ISNULL(COUNT(UserId), 0)
+            const string sql = @"
+                SELECT COUNT(*) 
                   FROM Users
-                 WHERE Username = '{usuario}'
-                   AND Password = '{password}'";
+                 WHERE Username = @user
+                   AND Password = @pwd";
 
             using (var conn = new SqlConnection(GetConnectionString()))
             using (var cmd = new SqlCommand(sql, conn))
             {
+                cmd.Parameters.AddWithValue("@user", usuario);
+                cmd.Parameters.AddWithValue("@pwd", password);
                 conn.Open();
                 return Convert.ToInt32(cmd.ExecuteScalar());
             }
         }
 
         /// <summary>
-        /// Si el usuario/contraseña coincide, devuelve un StUsuario con todos sus datos;
-        /// si no, devuelve un struct con UserId = 0.
+        /// Si coincide, devuelve un StUsuario poblado; si no, UserId = 0.
         /// </summary>
         public static StUsuario LoginUsuarioII(string usuario, string password)
         {
             var u = new StUsuario();
-
-            string sql = $@"
+            const string sql = @"
                 SELECT 
                     UserId,
                     Username,
                     Password,
                     Email,
+                    FirstName,
+                    LastName,
                     PermissionLevel,
                     CreatedAt
                   FROM Users
-                 WHERE Username = '{usuario}'
-                   AND Password = '{password}'";
+                 WHERE Username = @user
+                   AND Password = @pwd";
 
             using (var conn = new SqlConnection(GetConnectionString()))
             using (var cmd = new SqlCommand(sql, conn))
             {
+                cmd.Parameters.AddWithValue("@user", usuario);
+                cmd.Parameters.AddWithValue("@pwd", password);
                 conn.Open();
                 using (var rdr = cmd.ExecuteReader())
                 {
@@ -75,6 +78,8 @@ namespace BIZ
                         u.Username = rdr["Username"].ToString();
                         u.Password = rdr["Password"].ToString();
                         u.Email = rdr["Email"].ToString();
+                        u.FirstName = rdr["FirstName"].ToString();
+                        u.LastName = rdr["LastName"].ToString();
                         u.PermissionLevel = (byte)rdr["PermissionLevel"];
                         u.CreatedAt = (DateTime)rdr["CreatedAt"];
                     }
@@ -85,18 +90,19 @@ namespace BIZ
         }
 
         /// <summary>
-        /// Recupera los datos completos del usuario dado su UserId.
+        /// Recupera todos los datos del usuario dado su UserId.
         /// </summary>
         public static StUsuario GetUsuario(int userId)
         {
             var u = new StUsuario();
-
-            string sql = @"
+            const string sql = @"
                 SELECT 
                     UserId,
                     Username,
                     Password,
                     Email,
+                    FirstName,
+                    LastName,
                     PermissionLevel,
                     CreatedAt
                   FROM Users
@@ -115,6 +121,8 @@ namespace BIZ
                         u.Username = rdr["Username"].ToString();
                         u.Password = rdr["Password"].ToString();
                         u.Email = rdr["Email"].ToString();
+                        u.FirstName = rdr["FirstName"].ToString();
+                        u.LastName = rdr["LastName"].ToString();
                         u.PermissionLevel = (byte)rdr["PermissionLevel"];
                         u.CreatedAt = (DateTime)rdr["CreatedAt"];
                     }
@@ -125,17 +133,18 @@ namespace BIZ
         }
 
         /// <summary>
-        /// Actualiza Username, Email y Password de un usuario.
-        /// Devuelve true si la actualización afectó al menos una fila.
+        /// Actualiza Username, Email, Password, FirstName y LastName del usuario.
         /// </summary>
-        public static bool UpdateUsuario(int userId, string username, string email, string password)
+        public static bool UpdateUsuario(int userId, string username, string email, string password, string firstName, string lastName)
         {
-            string sql = @"
+            const string sql = @"
                 UPDATE Users
-                   SET Username = @user,
-                       Email    = @mail,
-                       Password = @pwd
-                 WHERE UserId   = @id";
+                   SET Username    = @user,
+                       Email       = @mail,
+                       Password    = @pwd,
+                       FirstName   = @fname,
+                       LastName    = @lname
+                 WHERE UserId     = @id";
 
             using (var conn = new SqlConnection(GetConnectionString()))
             using (var cmd = new SqlCommand(sql, conn))
@@ -143,8 +152,9 @@ namespace BIZ
                 cmd.Parameters.AddWithValue("@user", username);
                 cmd.Parameters.AddWithValue("@mail", email);
                 cmd.Parameters.AddWithValue("@pwd", password);
+                cmd.Parameters.AddWithValue("@fname", firstName);
+                cmd.Parameters.AddWithValue("@lname", lastName);
                 cmd.Parameters.AddWithValue("@id", userId);
-
                 conn.Open();
                 return cmd.ExecuteNonQuery() > 0;
             }

@@ -1,12 +1,34 @@
-﻿<%@ Page Title="Registro" Language="C#" MasterPageFile="~/Site.Master"
-         AutoEventWireup="true" CodeBehind="Register.aspx.cs"
+﻿<%@ Page Title="Registro"
+         Language="C#"
+         MasterPageFile="~/Site.Master"
+         AutoEventWireup="true"
+         CodeBehind="Register.aspx.cs"
          Inherits="TP1Avanzada.Register" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
   <div class="container">
     <h2>Registro de nuevo usuario</h2>
-    
     <asp:ValidationSummary runat="server" CssClass="text-danger" />
+
+    <!-- Nombre -->
+    <div class="form-group">
+      <asp:Label runat="server" AssociatedControlID="txtFirstName">Nombre:</asp:Label>
+      <asp:TextBox ID="txtFirstName" runat="server" CssClass="form-control" />
+      <asp:RequiredFieldValidator ControlToValidate="txtFirstName"
+          ErrorMessage="* Campo obligatorio"
+          CssClass="text-danger"
+          runat="server" />
+    </div>
+
+    <!-- Apellido -->
+    <div class="form-group">
+      <asp:Label runat="server" AssociatedControlID="txtLastName">Apellido:</asp:Label>
+      <asp:TextBox ID="txtLastName" runat="server" CssClass="form-control" />
+      <asp:RequiredFieldValidator ControlToValidate="txtLastName"
+          ErrorMessage="* Campo obligatorio"
+          CssClass="text-danger"
+          runat="server" />
+    </div>
 
     <!-- Usuario -->
     <div class="form-group">
