@@ -23,8 +23,6 @@ Aplicación web ASP.NET WebForms (C#) con capa de negocio (BIZ) y SQL Server.
 ```
 / (root)
 ├─ TP1Avanzada.sln
-├─ Scripts/
-│ └─ InitializeDatabase.sql
 ├─ TP1Avanzada/ (proyecto WebForms)
 │ ├─ Site.Master
 │ ├─ Default.aspx, Default.aspx.cs
@@ -43,12 +41,12 @@ Aplicación web ASP.NET WebForms (C#) con capa de negocio (BIZ) y SQL Server.
 │ ├─ BooksService.cs
 │ └─ Entidades (User.cs, Book.cs, PasswordResetToken.cs)
 └─ Content/
-└─ Site.css (estilos globales)
+  └─ Site.css (estilos globales)
 ```
 
 ## Configuración
 
-1. Ejecutar `Scripts/InitializeDatabase.sql` en SQL Server Management Studio.  
+1. Crear la base de datos utilizando el script al final del archivo en SQL Server Management Studio.  
 2. Ajustar la cadena de conexión en `TP1Avanzada\web.config`:
 
    ```xml
