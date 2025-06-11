@@ -134,7 +134,7 @@
       </asp:HyperLink>
     </div>
   </asp:Panel>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.btn-delete').forEach(function (btn) {

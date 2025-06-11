@@ -11,7 +11,6 @@ namespace TP1Avanzada
         {
             litError.Visible = false;
 
-            // 1) Leer token del QueryString
             var t = Request.QueryString["token"];
             if (string.IsNullOrEmpty(t) || !Guid.TryParse(t, out _token))
             {
@@ -19,14 +18,12 @@ namespace TP1Avanzada
                 return;
             }
 
-            // 2) Validar token (no usado y no expirado)
             if (!BIZ.PasswordResetService.ValidateToken(_token))
             {
                 ShowError("Token expirado o ya utilizado.");
                 return;
             }
 
-            // 3) Mostrar formulario
             pnlForm.Visible = true;
         }
 
@@ -34,7 +31,6 @@ namespace TP1Avanzada
         {
             if (!Page.IsValid) return;
 
-            // 4) Intentar resetear
             if (BIZ.PasswordResetService.ResetPassword(_token, txtPassword.Text))
             {
                 ShowMessage("Contraseña actualizada con éxito.", isError: false);

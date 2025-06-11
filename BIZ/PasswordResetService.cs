@@ -12,13 +12,8 @@ namespace BIZ
                 .ConnectionStrings["SQLCLASE"]
                 .ConnectionString;
 
-        /// <summary>
-        /// Genera un token, lo guarda con 20 min de validez y devuelve el GUID.
-        /// Lanza excepción si el email no existe.
-        /// </summary>
         public static Guid CreateToken(string email)
         {
-            // 1) Busca userId por email
             int userId;
             const string q1 = "SELECT UserId FROM Users WHERE Email = @mail";
             using (var cx = new SqlConnection(ConnString))
@@ -32,7 +27,6 @@ namespace BIZ
                 userId = (int)o;
             }
 
-            // 2) Inserta token
             var token = Guid.NewGuid();
             var exp = DateTime.UtcNow.AddMinutes(20);
             const string q2 = @"
@@ -52,10 +46,6 @@ namespace BIZ
             return token;
         }
 
-        /// <summary>
-        /// Valida que el token exista, no esté usado y no haya expirado.
-        /// NO lo marca como usado.
-        /// </summary>
         public static bool ValidateToken(Guid token)
         {
             const string q = @"
@@ -70,20 +60,15 @@ namespace BIZ
                 using (var r = cm.ExecuteReader())
                 {
                     if (!r.Read()) return false;
-                    if (r.GetBoolean(1)) return false;  // Used = 1
-                    if (r.GetDateTime(0) < DateTime.UtcNow) return false;  // expirado
+                    if (r.GetBoolean(1)) return false;
+                    if (r.GetDateTime(0) < DateTime.UtcNow) return false;
                     return true;
                 }
             }
         }
 
-        /// <summary>
-        /// Cambia la contraseña (texto plano) del usuario asociado al token,
-        /// marca el token como usado y devuelve true si tuvo éxito.
-        /// </summary>
         public static bool ResetPassword(Guid token, string newPassword)
         {
-            // 1) Obtiene userId y chequea validez
             int userId;
             const string q1 = @"
                 SELECT UserId, Used, Expiration
@@ -103,7 +88,6 @@ namespace BIZ
                 }
             }
 
-            // 2) En la misma conexión, en transacción: actualiza Users y marca el token
             using (var cx = new SqlConnection(ConnString))
             {
                 cx.Open();
@@ -111,7 +95,6 @@ namespace BIZ
                 {
                     try
                     {
-                        // a) actualizar contraseña
                         const string updUser = @"
                             UPDATE Users
                                SET Password = @pwd
@@ -123,7 +106,6 @@ namespace BIZ
                             cm1.ExecuteNonQuery();
                         }
 
-                        // b) marcar token usado
                         const string updToken = @"
                             UPDATE PasswordResetTokens
                                SET Used = 1

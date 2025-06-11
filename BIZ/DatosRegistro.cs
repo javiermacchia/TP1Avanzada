@@ -11,10 +11,6 @@ namespace BIZ
                 .ConnectionStrings["SQLCLASE"]
                 .ConnectionString;
 
-        /// <summary>
-        /// Intenta registrar un usuario con nombre y apellido.
-        /// Devuelve false si el username o email ya existen.
-        /// </summary>
         public static bool RegisterUsuario(
             string username,
             string password,
@@ -23,7 +19,6 @@ namespace BIZ
             string lastName,
             byte permissionLevel = 1)
         {
-            // 1) Comprueba duplicados
             const string checkSql = @"
                 SELECT COUNT(*) 
                   FROM Users
@@ -38,10 +33,9 @@ namespace BIZ
                 conn.Open();
                 int exists = Convert.ToInt32(cmd.ExecuteScalar());
                 if (exists > 0)
-                    return false;   // ya hay user o email
+                    return false;
             }
 
-            // 2) Inserta nuevo usuario
             const string insertSql = @"
                 INSERT INTO Users
                     (Username, Password, Email, FirstName, LastName,

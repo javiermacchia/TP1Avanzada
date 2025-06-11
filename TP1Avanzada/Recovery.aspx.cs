@@ -18,17 +18,10 @@ namespace TP1Avanzada
 
             try
             {
-                // 1) Genera el token en la BD
                 var token = BIZ.PasswordResetService.CreateToken(txtEmail.Text.Trim());
-
-                // 2) Construye la URL de restablecimiento
                 var baseUrl = Request.Url.GetLeftPart(UriPartial.Authority);
                 var resetUrl = $"{baseUrl}{ResolveUrl($"~/ResetPassword.aspx?token={token}")}";
-
-                // 3) Envía el correo
                 SendRecoveryEmail(txtEmail.Text.Trim(), resetUrl);
-
-                // 4) Muestra mensaje de éxito
                 lblMsg.CssClass = "text-success";
                 lblMsg.Text = "Si existe ese email, recibirás en unos minutos un enlace para restablecer tu contraseña.";
             }
@@ -56,8 +49,6 @@ namespace TP1Avanzada
 
                 using (var smtp = new SmtpClient())
                 {
-                    // El SmtpClient recoge host, puerto, credenciales y SSL
-                    // desde la sección <system.net><mailSettings> de tu Web.config
                     smtp.Send(msg);
                 }
             }

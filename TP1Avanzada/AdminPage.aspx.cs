@@ -29,10 +29,8 @@ namespace TP1Avanzada
             if (empty) gvBooks.Rows[0].Visible = false;
         }
 
-        // Este manejador evita el error de RowDeleting
         protected void gvBooks_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-            // No hacemos nada, ya se procesa en RowCommand
             e.Cancel = true;
         }
 

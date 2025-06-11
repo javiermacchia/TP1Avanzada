@@ -12,8 +12,8 @@ namespace BIZ
             public string Username;
             public string Password;
             public string Email;
-            public string FirstName;       // Nuevo
-            public string LastName;        // Nuevo
+            public string FirstName;
+            public string LastName;
             public byte PermissionLevel;
             public DateTime CreatedAt;
         }
@@ -23,9 +23,6 @@ namespace BIZ
                 .ConnectionStrings["SQLCLASE"]
                 .ConnectionString;
 
-        /// <summary>
-        /// Devuelve 1 si existe un usuario con esas credenciales, 0 en caso contrario.
-        /// </summary>
         public static int LoginUsuario(string usuario, string password)
         {
             const string sql = @"
@@ -44,9 +41,6 @@ namespace BIZ
             }
         }
 
-        /// <summary>
-        /// Si coincide, devuelve un StUsuario poblado; si no, UserId = 0.
-        /// </summary>
         public static StUsuario LoginUsuarioII(string usuario, string password)
         {
             var u = new StUsuario();
@@ -89,9 +83,6 @@ namespace BIZ
             return u;
         }
 
-        /// <summary>
-        /// Recupera todos los datos del usuario dado su UserId.
-        /// </summary>
         public static StUsuario GetUsuario(int userId)
         {
             var u = new StUsuario();
@@ -132,9 +123,6 @@ namespace BIZ
             return u;
         }
 
-        /// <summary>
-        /// Actualiza Username, Email, Password, FirstName y LastName del usuario.
-        /// </summary>
         public static bool UpdateUsuario(int userId, string username, string email, string password, string firstName, string lastName)
         {
             const string sql = @"

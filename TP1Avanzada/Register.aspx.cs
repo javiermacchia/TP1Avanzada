@@ -14,10 +14,8 @@ namespace TP1Avanzada
 
         protected void BtRegister_Click(object sender, EventArgs e)
         {
-            // Si fallan los validadores, no procesamos
             if (!Page.IsValid) return;
 
-            // Llamada al servicio BIZ con los nuevos parámetros
             bool ok = DatosRegistro.RegisterUsuario(
                 txtUsername.Text.Trim(),
                 txtPassword.Text,
@@ -31,7 +29,6 @@ namespace TP1Avanzada
             {
                 lblMessage.Text = "¡Registro exitoso! Ya puede iniciar sesión.";
                 lblMessage.CssClass = "text-success";
-                // Limpiar campos
                 txtUsername.Text = "";
                 txtEmail.Text = "";
                 txtPassword.Text = "";

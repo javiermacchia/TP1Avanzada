@@ -7,16 +7,13 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
-  <!-- Wrapper de fondo pastel -->
   <div class="register-bg py-5">
-    <!-- Aquí centramos el form y limitamos ancho a 300px -->
     <div class="registration-form-wrapper">
 
       <div class="bg-white bg-opacity-75 rounded p-4">
         <h2>Registro de nuevo usuario</h2>
         <asp:ValidationSummary runat="server" CssClass="text-danger" />
 
-        <!-- Nombre -->
         <div class="form-group mb-3">
           <asp:Label runat="server" AssociatedControlID="txtFirstName">Nombre:</asp:Label>
           <asp:TextBox ID="txtFirstName" runat="server" CssClass="form-control" />
@@ -26,7 +23,6 @@
               runat="server" />
         </div>
 
-        <!-- Apellido -->
         <div class="form-group mb-3">
           <asp:Label runat="server" AssociatedControlID="txtLastName">Apellido:</asp:Label>
           <asp:TextBox ID="txtLastName" runat="server" CssClass="form-control" />
@@ -36,7 +32,6 @@
               runat="server" />
         </div>
 
-        <!-- Usuario -->
         <div class="form-group mb-3">
           <asp:Label runat="server" AssociatedControlID="txtUsername">Usuario:</asp:Label>
           <asp:TextBox ID="txtUsername" runat="server" CssClass="form-control" />
@@ -46,7 +41,6 @@
                runat="server" />
         </div>
 
-        <!-- Email -->
         <div class="form-group mb-3">
           <asp:Label runat="server" AssociatedControlID="txtEmail">Email:</asp:Label>
           <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" />
@@ -61,7 +55,6 @@
                runat="server" />
         </div>
 
-        <!-- Contraseña -->
         <div class="form-group mb-3">
           <asp:Label runat="server" AssociatedControlID="txtPassword">Contraseña:</asp:Label>
           <asp:TextBox ID="txtPassword" runat="server"
@@ -73,7 +66,6 @@
                runat="server" />
         </div>
 
-        <!-- Confirmar contraseña -->
         <div class="form-group mb-4">
           <asp:Label runat="server" AssociatedControlID="txtConfirmPassword">
             Confirmar contraseña:
@@ -92,14 +84,12 @@
                runat="server" />
         </div>
 
-        <!-- Botón Registrar -->
         <asp:Button ID="BtRegister"
                     runat="server"
                     Text="Registrarse"
                     CssClass="btn btn-success w-100"
                     OnClick="BtRegister_Click" />
 
-        <!-- Mensaje resultado -->
         <div class="mt-3 text-center">
           <asp:Label ID="lblMessage"
                      runat="server"
