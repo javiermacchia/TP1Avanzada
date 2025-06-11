@@ -20,7 +20,8 @@ Aplicación web ASP.NET WebForms (C#) con capa de negocio (BIZ) y SQL Server.
 - Navegador moderno (Chrome, Edge, Firefox)
 
 ## Estructura de Carpetas
-```
+
+```bash
 / (root)
 ├─ TP1Avanzada.sln
 ├─ TP1Avanzada/ (proyecto WebForms)
@@ -59,13 +60,13 @@ Aplicación web ASP.NET WebForms (C#) con capa de negocio (BIZ) y SQL Server.
    </connectionStrings>
    ```
 
-**Inicializar y Ejecutar**
+### Inicializar y Ejecutar
 1. Abrir `TP1Avanzada.sln` en Visual Studio.
 2. Marcar `TP1Avanzada` como proyecto de inicio.
 3. Presionar F5 para compilar y ejecutar con IIS Express.
 4. En el navegador ir a `http://localhost:xxxx/`.
 
-**Uso**
+### Uso
 - **Registro**: crear usuario con nombre, apellido, email, contraseña.  
 - **Login**: iniciar sesión con usuario/email y contraseña.  
 - **Panel de Admin** (`/AdminPage.aspx`): CRUD de libros (solo nivel 0).  
