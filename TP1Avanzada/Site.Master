@@ -1,23 +1,19 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="TP1Avanzada.SiteMaster" %>
-
 <!DOCTYPE html>
 <html lang="es">
 <head runat="server">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= Page.Title %> - Mi aplicación ASP.NET</title>
+    <title><%= Page.Title %> - BibliotecaApp</title>
     <asp:PlaceHolder runat="server"><%: Scripts.Render("~/bundles/modernizr") %></asp:PlaceHolder>
     <webopt:bundlereference runat="server" path="~/Content/css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<body>
-  <form runat="server">
-    <asp:ScriptManager runat="server">
-      <Scripts>
-                <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
-                <%--Framework Scripts--%>
+<body class="d-flex flex-column min-vh-100">
+    <form runat="server" class="flex-fill d-flex flex-column">
+        <asp:ScriptManager runat="server">
+            <Scripts>
                 <asp:ScriptReference Name="MsAjaxBundle" />
                 <asp:ScriptReference Name="jquery" />
                 <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
@@ -29,91 +25,94 @@
                 <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
                 <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
                 <asp:ScriptReference Name="WebFormsBundle" />
-                <%--Site Scripts--%>
-      </Scripts>
-    </asp:ScriptManager>
+            </Scripts>
+        </asp:ScriptManager>
 
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-      <div class="container">
-        <a class="navbar-brand" runat="server" href="~/Default.aspx">Mi aplicación</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-          <ul class="navbar-nav flex-grow-1">
-            <!-- Siempre visible -->
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+  <div class="container">
+    <asp:HyperLink runat="server" CssClass="navbar-brand" NavigateUrl="~/Default.aspx">
+      BibliotecaApp
+    </asp:HyperLink>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+            aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav mx-auto">
+        <% if (Session["UserName"] != null) { %>
+          <li class="nav-item">
+            <span class="nav-link disabled">
+              Bienvenido, <strong><%= Session["UserName"] %></strong>
+            </span>
+          </li>
+        <% } %>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <asp:HyperLink runat="server" CssClass="nav-link" NavigateUrl="~/Default.aspx">
+            Inicio
+          </asp:HyperLink>
+        </li>
+        <% if (Session["UserName"] != null) { %>
+          <% if ((byte)Session["PermissionLevel"] == 0) { %>
             <li class="nav-item">
-              <a class="nav-link" runat="server" href="~/Default.aspx">Inicio</a>
+              <asp:HyperLink runat="server" CssClass="nav-link" NavigateUrl="~/AdminPage.aspx">
+                Admin
+              </asp:HyperLink>
             </li>
-
-            <% if (Session["UserName"] != null) { %>
-                <!-- Usuario logueado: Perfil y Logout -->
-                <li class="nav-item">
-                  <span class="nav-link disabled">
-                    Bienvenido, <%= Session["UserName"] %>
-                  </span>
-                </li>
-                  <% if (Session["PermissionLevel"] != null 
-                           && (byte)Session["PermissionLevel"] == 0) { %>
-                      <li class="nav-item">
-                        <asp:HyperLink runat="server"
-                                       CssClass="nav-link"
-                                       NavigateUrl="~/AdminPage.aspx">
-                          Admin
-                        </asp:HyperLink>
-                      </li>
-                    <% } %>
-                <li class="nav-item">
-                  <a class="nav-link" runat="server" href="~/ProfilePage.aspx">Mi perfil</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="javascript:void(0)"
-                       onclick="confirmLogout(); return false;">
-                      Cerrar sesión
-                    </a>
-                </li>
-            <% } else { %>
-                <!-- Visitante: solo Login -->
-                <li class="nav-item">
-                  <a class="nav-link" runat="server" href="~/Login.aspx">Login</a>
-                </li>
-            <% } %>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-    <div class="container body-content">
-      <asp:ContentPlaceHolder ID="MainContent" runat="server" />
-      <hr />
-      <footer>
-        <p>&copy; <%: DateTime.Now.Year %> - Mi aplicación ASP.NET</p>
-      </footer>
+          <% } %>
+          <li class="nav-item">
+            <asp:HyperLink runat="server" CssClass="nav-link" NavigateUrl="~/ProfilePage.aspx">
+              Mi perfil
+            </asp:HyperLink>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)"
+               onclick="confirmLogout(); return false;">
+              Cerrar sesión
+            </a>
+          </li>
+        <% } else { %>
+          <li class="nav-item">
+            <asp:HyperLink runat="server" CssClass="nav-link" NavigateUrl="~/Login.aspx">
+              Login
+            </asp:HyperLink>
+          </li>
+        <% } %>
+      </ul>
     </div>
-      <script type="text/javascript">
-      </script>
-  </form>
+  </div>
+</nav>
 
-  <asp:PlaceHolder runat="server">
-    <%: Scripts.Render("~/Scripts/bootstrap.js") %>
-  </asp:PlaceHolder>
-    <script type="text/javascript">
-  function confirmLogout() {
-    Swal.fire({
-      title: '¿Cerrar sesión?',
-      text: '¿Estás seguro de que quieres cerrar tu sesión?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, salir',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // Navega a Logout.aspx
-        window.location.href = '<%= ResolveUrl("~/Logout.aspx") %>';
-      }
-    });
-  }
-    </script>
+
+        <div class="container body-content flex-fill">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+        </div>
+
+        <footer class="site-footer bg-dark text-white mt-auto">
+            <div class="container text-center py-3">
+                <p>&copy; <%: DateTime.Now.Year %> - BibliotecaApp</p>
+            </div>
+        </footer>
+
+        <script type="text/javascript">
+            function confirmLogout() {
+                Swal.fire({
+                    title: '¿Cerrar sesión?',
+                    text: '¿Estás seguro de que quieres cerrar tu sesión?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, salir',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '<%= ResolveUrl("~/Logout.aspx") %>';
+                    }
+                });
+            }
+        </script>
+    </form>
+
+    <asp:PlaceHolder runat="server"><%: Scripts.Render("~/Scripts/bootstrap.js") %></asp:PlaceHolder>
 </body>
 </html>

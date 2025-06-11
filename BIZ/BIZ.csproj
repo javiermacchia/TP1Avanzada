@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BookService.cs" />
     <Compile Include="DatosLogin.cs" />
     <Compile Include="DatosRegistro.cs" />
     <Compile Include="PasswordResetService.cs" />
